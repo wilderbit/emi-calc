@@ -9,7 +9,7 @@ impl Round for f64 {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct MonthEmi {
     pub sno: i32,
     pub amount: f64,
@@ -18,7 +18,7 @@ pub struct MonthEmi {
     pub remaining_principal: f64,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct FinalCalculation {
     pub monthly_data: Vec<MonthEmi>,
     pub total_interest: f64,
