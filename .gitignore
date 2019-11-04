@@ -3,3 +3,4 @@
 .idea
 /emi/node_modules
 /emi/build
+/static
