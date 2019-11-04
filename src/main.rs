@@ -4,6 +4,9 @@ extern crate serde;
 
 use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 use emi_calc::emi;
+use std::fs;
+use std::io;
+use std::io::prelude::*;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct CalculateEmi {
@@ -13,7 +16,31 @@ pub struct CalculateEmi {
 }
 
 fn index() -> impl Responder {
-    HttpResponse::Ok().body("Hello to Calculate EMI")
+    HttpResponse::Ok().body(
+        r#"
+        <html>
+            <head>
+                <script src="/static/script.js" type="text/javascript"></script>
+            </head>
+            <body>
+                <h1>Hellow</h1>
+            </body>
+        </html>
+    "#,
+    )
+}
+
+fn static_content(path: &str) -> Vec<u8> {
+    let path = format!("static/{}", path);
+    let source_path = std::path::Path::new(&path);
+    let mut src = std::fs::File::open(&source_path).unwrap();
+    let mut content = Vec::new();
+    src.read_to_end(&mut content).unwrap();
+    content
+}
+
+fn serve_static(path: web::Path<String>) -> impl Responder {
+    HttpResponse::Ok().body(static_content(&path))
 }
 
 fn calculate_emi(data: web::Json<CalculateEmi>) -> impl Responder {
@@ -26,6 +53,7 @@ fn main() {
         App::new()
             .route("/", web::get().to(index))
             .route("/calculate_emi", web::post().to(calculate_emi))
+            .route("/static/{path}", web::get().to(serve_static))
     })
     .bind("127.0.0.1:8080")
     .unwrap()
