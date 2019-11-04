@@ -1,3 +1,5 @@
 /target
 **/*.rs.bk
 .idea
+/emi/node_modules
+/emi/build
