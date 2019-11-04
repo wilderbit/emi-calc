@@ -4,3 +4,5 @@
 /emi/node_modules
 /emi/build
 /static
+emi/package-lock.json
+emi/yarn.lock
