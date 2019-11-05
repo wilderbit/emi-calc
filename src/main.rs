@@ -3,7 +3,7 @@ extern crate emi_calc;
 extern crate serde;
 
 use actix_web::http::header::ContentType;
-use actix_web::{web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Responder};
 use emi_calc::emi;
 use std::io::prelude::*;
 
@@ -14,7 +14,7 @@ pub struct CalculateEmi {
     tenure: i32,
 }
 // <script src="/static/script.js" type="text/javascript"></script>
-fn index() -> impl Responder {
+fn index(_req: HttpRequest) -> impl Responder {
     let index_page = static_content("emi/build/index.html");
     HttpResponse::Ok().set(ContentType::html()).body(index_page)
 }
