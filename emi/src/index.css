@@ -59,6 +59,8 @@ ol, ul {
 }
 
 .board {
-    margin-top: 50px;
-    padding-left: 450px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
