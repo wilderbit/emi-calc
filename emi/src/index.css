@@ -1,8 +1,12 @@
 body {
-    font: 14px "Century Gothic", Futura, sans-serif;
+    font-family: "Titillium Web", sans-serif;
     margin: 50px;
     padding: 10px;
-    background-color: white;
+    color: #00334e;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+    line-height: 20px;
 }
 
 ol, ul {
@@ -63,4 +67,61 @@ ol, ul {
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.th, .td{
+    display: table-cell;
+    width: 2%;
+    line-height: 25px;
+    border-collapse: collapse;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    background-color: #ecf1f4;
+    border: 1px solid rgba(151,151,151,0.3);
+    font-weight: 700;
+    line-height: 1.38;
+    box-sizing: border-box;
+    width: 100%;
+    display: table;
+}
+
+.tr {
+    background-color: transparent;
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+.emi-table-head {
+    padding: 10px;
+    text-align: center;
+}
+
+.h2 {
+    font-weight: 600;
+    margin: 0 0 15px;
+    font-size: 22px;
+    line-height: 24px;
+    font-family: inherit;
+    color: inherit;
+    display: block;
+}
+.table-responsive {
+    box-shadow: 0 0 30px 0 rgba(0,0,0,0.12);
+    min-height: 0.01%;
+    overflow-x: auto;
+}
+
+.table-content {
+    margin: 60px 75px 0;
+}
+
+.input[type=text] {
+    width: 100px;
+    padding: 15px;
 }

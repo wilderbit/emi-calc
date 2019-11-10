@@ -25,7 +25,7 @@ class EMIForm extends React.Component {
         this.setState({
             [name]: value
         })
-    }
+    };
 
     handleSubmit(event) {
         event.preventDefault();
@@ -87,15 +87,33 @@ function Table(props) {
         if (props.state.success) {
             const data = props.state.data;
             let rows = data.monthly_data.map((value, index) => {
-                return (<li key={index}>
-                    {value.amount}, {value.interest}, {value.principal}, {data.emi}, {value.remaining_principal}
-                </li>);
+                return (<tr className="tr">
+                    <td className="td">{value.sno}</td>
+                    <td className="td">{value.amount}</td>
+                    <td className="td">{data.emi}</td>
+                    <td className="td">{value.interest}</td>
+                    <td className="td">{value.principal}</td>
+                    <td className="td">{value.remaining_principal}</td>
+                </tr>);
             });
-            return(<div>
-                <h1>Total Amount to be paid: {data.total_emi_amount}</h1>
-                <h1>Total Interest to be paid: {data.total_interest}</h1>
-                <h1>Total Interest to be paid: {data.emi}</h1>
-                <ol>{rows}</ol>
+            return(
+                <div className="table-responsive table-content">
+                <div className="emi-table-head h2">
+                    Home Loan Emi Table
+                </div>
+                <table className="table">
+                    <thead>
+                        <tr className="tr">
+                            <th className="th">Month</th>
+                            <th className="th">Opening Balance</th>
+                            <th className="th">EMI</th>
+                            <th className="th">Interest paid monthly</th>
+                            <th className="th">Principal paid monthly</th>
+                            <th className="th">Closing Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>{rows}</tbody>
+                </table>
             </div>)
         } else {
             return(<div><h1>Some Error Occurred</h1> </div>)
