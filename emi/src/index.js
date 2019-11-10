@@ -28,6 +28,8 @@ class EMIForm extends React.Component {
     };
 
     handleSubmit(event) {
+        console.log("Reached::: ", this.state.principal);
+
         event.preventDefault();
         fetch("http://127.0.0.1:8080/calculate_emi/", {
             method: 'POST',
@@ -62,19 +64,14 @@ class EMIForm extends React.Component {
     render() {
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Principal Amount:
-                        <input type="text" name="principal" value={this.state.principal} onChange={this.changeHandler}/>
-                        <br/>
-                        Rate of Interest:
-                        <input type="text" name="rate" value={this.state.rate} onChange={this.changeHandler}/>
-                        <br/>
-                        Number of Month:
-                        <input type="text" name="months" value={this.state.months} onChange={this.changeHandler}/>
-                        <br/>
-                    </label>
-                    <input type="submit" value="Submit"/>
+                <form className="form" onSubmit={this.handleSubmit}>
+                    <label className="label">Principal Amount:</label>
+                    <input className="input" type="text" name="principal" value={this.state.principal} onChange={this.changeHandler}/>
+                    <label className="label">Rate of Interest:</label>
+                    <input className="input" type="text" name="rate" value={this.state.rate} onChange={this.changeHandler}/>
+                    <label className="label">Number of Months:</label>
+                    <input className="input" type="text" name="months" value={this.state.months} onChange={this.changeHandler}/>
+                    <input className="input" type="submit" value="Submit"/>
                 </form>
                 <Table state={this.state}/>
             </div>
