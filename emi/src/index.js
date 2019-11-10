@@ -141,19 +141,23 @@ class EMIForm extends React.Component {
     render() {
         return (
             <div>
-                <form className="form" onSubmit={this.handleSubmit} method="POST">
-                    <label className="label">Principal Amount:</label>
-                    <input className="input" type="text" name="principal" value={this.state.principal} onChange={this.changeHandler} onClick={this.inputOnClick}/>
-                    <div id="principal_error">{this.state.showPrincipalError}</div>
-                    <label className="label">Rate of Interest:</label>
-                    <input className="input" type="text" name="rate" value={this.state.rate} onChange={this.changeHandler} onClick={this.inputOnClick}/>
-                    <div id="rate_error">{this.state.showRateError}</div>
-                    <label className="label">Number of Months:</label>
-                    <input className="input" type="text" name="months" value={this.state.months} onChange={this.changeHandler} onClick={this.inputOnClick}/>
-                    <div id="months_error">{this.state.showMonthsError}</div>
-                    <input className="input" type="submit" value="Submit"/>
-                </form>
-                <Table state={this.state}/>
+                <div>
+                    <form className="form" onSubmit={this.handleSubmit} method="POST">
+                        <label className="label">Principal Amount:</label>
+                        <input className="input" type="text" name="principal" value={this.state.principal} onChange={this.changeHandler} onClick={this.inputOnClick}/>
+                        <div id="principal_error">{this.state.showPrincipalError}</div>
+                        <label className="label">Rate of Interest:</label>
+                        <input className="input" type="text" name="rate" value={this.state.rate} onChange={this.changeHandler} onClick={this.inputOnClick}/>
+                        <div id="rate_error">{this.state.showRateError}</div>
+                        <label className="label">Number of Months:</label>
+                        <input className="input" type="text" name="months" value={this.state.months} onChange={this.changeHandler} onClick={this.inputOnClick}/>
+                        <div id="months_error">{this.state.showMonthsError}</div>
+                        <input className="input" type="submit" value="Submit"/><br/>
+                    </form>
+                </div>
+                <div>
+                    <Table state={this.state}/>
+                </div>
             </div>
         )
     }
@@ -174,9 +178,15 @@ function Table(props) {
                 </tr>);
             });
             return(
+                <div>
+                    <div className="info">
+                        <lable className="info-label">Interest Payable: {data.total_interest}</lable>
+                        <lable className="info-label">Total Amount Payable: {data.total_emi_amount}</lable>
+
+                    </div>
                 <div className="table-responsive table-content">
                 <div className="emi-table-head h2">
-                    Home Loan Emi Table
+                    Emi Monthly Break-up Table
                 </div>
                 <table className="table">
                     <thead>
@@ -191,7 +201,7 @@ function Table(props) {
                     </thead>
                     <tbody>{rows}</tbody>
                 </table>
-            </div>)
+            </div></div>)
         } else {
             return(<div><h1>Some Error Occurred</h1> </div>)
         }
