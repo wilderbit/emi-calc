@@ -2,135 +2,111 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+class EMIForm extends React.Component {
 
-function Square(props) {
-    return (
-        <button
-            className="square"
-            onClick={props.onClick}
-        >
-            {props.value}
-        </button>
-    )
-}
-
-
-class Board extends React.Component {
-    renderSquare(i) {
-        return (
-            <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)}/>
-        );
+    constructor(props) {
+        super(props);
+        this.state = {
+            principal: 0,
+            rate: 0,
+            months: 0,
+            success: false,
+            data: null,
+            error: null,
+            isLoaded: false
+        };
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    render() {
-        return (
-            <div className="board">
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-            </div>
-        )
-    }
-}
+    changeHandler =  (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
 
-
-class Game extends React.Component {
-
-    handleClick(i) {
-        const history = this.state.history;
-        const current = history[history.length - 1];
-        const squares = current.squares.slice();
-        if (calculateWinner(squares) || squares[i]) {
-            return;
-        }
-
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
         this.setState({
-            history: history.concat([{
-                squares: squares
-            }]),
-            xIsNext: !this.state.xIsNext
+            [name]: value
         })
     }
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            history: [{
-                squares: Array(9).fill(null)
-            }],
-            xIsNext: true,
+    handleSubmit(event) {
+        event.preventDefault();
+        fetch("http://127.0.0.1:8080/calculate_emi/", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "amount": 10000000,
+                "rate": 8.5,
+                "tenure": 12
+            }),
         }
+        ).then(res => res.json())
+        .then(
+            (result) => {
+                this.setState({
+                    success: true,
+                    data: result,
+                    isLoaded: true,
+                })
+            },
+            (error) => {
+                this.setState({
+                    success: false,
+                    error: error,
+                    isLoaded: true,
+                })
+            }
+        )
     }
-
     render() {
-        const history = this.state.history;
-        const current = history[history.length - 1];
-        const winner = calculateWinner(current.squares);
-        let status;
-        if (winner) {
-            status = 'Winner: ' + winner
-        } else {
-            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-        }
         return (
-            <div className="game">
-                <div className="game-board">
-                    <Board
-                        squares={current.squares}
-                        onClick={(i) => this.handleClick(i)}
-                    />
-                </div>
-                <div className="game-info">
-                    <div className="status"> {status} </div>
-                    <ol> {/* TODO */} </ol>
-                </div>
+            <div>
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        Principal Amount:
+                        <input type="text" name="principal" value={this.state.principal} onChange={this.changeHandler}/>
+                        <br/>
+                        Rate of Interest:
+                        <input type="text" name="rate" value={this.state.rate} onChange={this.changeHandler}/>
+                        <br/>
+                        Number of Month:
+                        <input type="text" name="months" value={this.state.months} onChange={this.changeHandler}/>
+                        <br/>
+                    </label>
+                    <input type="submit" value="Submit"/>
+                </form>
+                <Table state={this.state}/>
             </div>
         )
     }
 }
 
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+function Table(props) {
+    if (props.state.isLoaded) {
+        if (props.state.success) {
+            const data = props.state.data;
+            let rows = data.monthly_data.map((value, index) => {
+                return (<li key={index}>
+                    {value.amount}, {value.interest}, {value.principal}, {data.emi}, {value.remaining_principal}
+                </li>);
+            });
+            return(<div>
+                <h1>Total Amount to be paid: {data.total_emi_amount}</h1>
+                <h1>Total Interest to be paid: {data.total_interest}</h1>
+                <h1>Total Interest to be paid: {data.emi}</h1>
+                <ol>{rows}</ol>
+            </div>)
+        } else {
+            return(<div><h1>Some Error Occurred</h1> </div>)
         }
+    } else {
+        return(<div></div>)
     }
-    return null;
 }
 
 
 ReactDOM.render(
-    <Game/>,
+    <EMIForm/>,
     document.getElementById('root')
 );
-
-
-// ReactDOM.render(
-//   <App />,
-//   document.getElementById('root')
-// );

@@ -26,6 +26,7 @@ pub struct FinalCalculation {
     pub principal: f64,
     pub rate: f64,
     pub tenure: i32,
+    pub emi: f64,
 }
 
 pub fn calculate_monthly(amount: f64, rate: f64, tenure: i32) -> FinalCalculation {
@@ -58,6 +59,7 @@ pub fn calculate_monthly(amount: f64, rate: f64, tenure: i32) -> FinalCalculatio
         principal: total_principal.round_off(2),
         tenure,
         rate,
+        emi: emi_amount.round_off(2),
     }
 }
 

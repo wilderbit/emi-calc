@@ -13,7 +13,7 @@ pub struct CalculateEmi {
     rate: f64,
     tenure: i32,
 }
-// <script src="/static/script.js" type="text/javascript"></script>
+
 fn index(_req: HttpRequest) -> impl Responder {
     let index_page = static_content("emi/build/index.html");
     HttpResponse::Ok().set(ContentType::html()).body(index_page)
@@ -62,7 +62,7 @@ fn main() {
     HttpServer::new(|| {
         App::new()
             .route("/", web::get().to(index))
-            .route("/calculate_emi", web::post().to(calculate_emi))
+            .route("/calculate_emi/", web::post().to(calculate_emi))
             .route("/static/css/{path}", web::get().to(serve_css_static))
             .route("/static/js/{path}", web::get().to(serve_js_static))
             .route("/static/media/{path}", web::get().to(serve_media_static))

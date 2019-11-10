@@ -2,7 +2,7 @@ body {
     font: 14px "Century Gothic", Futura, sans-serif;
     margin: 50px;
     padding: 10px;
-    background-color: grey;
+    background-color: white;
 }
 
 ol, ul {
@@ -20,7 +20,7 @@ ol, ul {
     padding: 10px;
     color: indigo;
     height: 30px;
-    font-size: xx-large;
+    font-size: xxx-large;
     font-family: "Apple Chancery";
     text-align: center;
 }
@@ -50,8 +50,8 @@ ol, ul {
 }
 
 .game {
-    display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .game-info {
