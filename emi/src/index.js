@@ -41,12 +41,6 @@ class EMIForm extends React.Component {
         });
     };
 
-
-
-    genError = (value) => {
-
-    };
-
     handleSubmit(event) {
         event.preventDefault();
         const principal = this.state.principal;
