@@ -13,5 +13,6 @@
     "build": "cd emi  && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "heroku-postbuild": "npm run build"
 }
