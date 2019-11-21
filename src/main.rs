@@ -6,6 +6,7 @@ use actix_web::http::header::ContentType;
 use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Responder};
 use emi_calc::emi;
 use std::io::prelude::*;
+use std::net::SocketAddr;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct CalculateEmi {
@@ -59,6 +60,11 @@ fn calculate_emi(data: web::Json<CalculateEmi>) -> impl Responder {
 }
 
 fn main() {
+    let port: u16  = std::env::var("PORT")
+        .unwrap_or("3000".to_string())
+        .parse()
+        .unwrap();
+    let addr = SocketAddr::from(([0, 0, 0, 0], port));
     HttpServer::new(|| {
         App::new()
             .route("/", web::get().to(index))
@@ -67,7 +73,7 @@ fn main() {
             .route("/static/js/{path}", web::get().to(serve_js_static))
             .route("/static/media/{path}", web::get().to(serve_media_static))
     })
-    .bind("0.0.0.0:8080")
+    .bind(&addr)
     .unwrap()
     .run()
     .unwrap();
