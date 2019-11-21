@@ -1,1 +1,1 @@
-web: RUST_BACKTRACE=1 ./target/release/abrarkhan
+web: RUST_BACKTRACE=1 ./target/release/service
