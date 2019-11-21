@@ -7,3 +7,4 @@
 /static
 emi/package-lock.json
 emi/yarn.lock
+/node_modules
